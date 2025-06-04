@@ -1,0 +1,45 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 1rem;
+  background: #f9f9f9;
+}
+#groups-container {
+  margin-bottom: 1rem;
+}
+.group {
+  background: #fff;
+  border: 1px solid #eee;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+.group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.group-actions button {
+  margin-left: 0.25rem;
+}
+#actions {
+  display: flex;
+  gap: 0.5rem;
+}
+input[type="text"] {
+  flex: 1;
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+button {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  background: #007bff;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+button:hover {
+  background: #0056b3;
+}
