@@ -1,8 +1,4 @@
-// Will implement background tab management logic here
 
-// Tab group structure: { [groupName]: [tabId, ...] }
-
-// Helper to get all groups from storage
 function getGroups() {
     return new Promise((resolve) => {
         chrome.storage.local.get(['tabGroups'], (result) => {

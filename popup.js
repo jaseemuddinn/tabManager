@@ -1,12 +1,4 @@
-// ==UserScript==
-// @name         Tab Group Manager
-// @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  Manage tab groups with ease
-// @author       You
-// @match        *://*/*
-// @grant        none
-// ==/UserScript==
+
 
 (function () {
     'use strict';
