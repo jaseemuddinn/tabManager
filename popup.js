@@ -19,23 +19,69 @@
             header.innerHTML = `<span>${groupName} (${tabIds.length})</span>`;
             const actions = document.createElement('div');
             actions.className = 'group-actions';
+
+            // Hide group
             const hideBtn = document.createElement('button');
             hideBtn.textContent = 'Hide';
             hideBtn.onclick = async () => {
                 await sendMessage({ action: 'hideGroup', groupName });
+                renderGroups();
             };
+
+            // Show group
             const showBtn = document.createElement('button');
             showBtn.textContent = 'Show';
             showBtn.onclick = async () => {
                 await sendMessage({ action: 'showGroup', groupName });
+                renderGroups();
             };
+
+            // Remove group
             const removeBtn = document.createElement('button');
             removeBtn.textContent = 'Remove';
             removeBtn.onclick = async () => {
                 await sendMessage({ action: 'removeGroup', groupName });
                 renderGroups();
             };
-            actions.append(hideBtn, showBtn, removeBtn);
+
+            // Collapse/Expand group (show tab URLs)
+            const collapseBtn = document.createElement('button');
+            collapseBtn.textContent = 'Expand';
+            let expanded = false;
+            let tabListDiv = null;
+            collapseBtn.onclick = async () => {
+                expanded = !expanded;
+                collapseBtn.textContent = expanded ? 'Collapse' : 'Expand';
+                if (expanded) {
+                    if (!tabListDiv) {
+                        tabListDiv = document.createElement('div');
+                        tabListDiv.style.marginTop = '0.5rem';
+                        tabListDiv.style.fontSize = '0.95em';
+                        tabListDiv.style.color = '#444';
+                        const tabInfos = await sendMessage({ action: 'getTabInfos', tabIds });
+                        tabListDiv.innerHTML = tabInfos.length
+                            ? tabInfos.map(tab => `<div style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                <a href="${tab.url}" target="_blank" style="color:#2a3a5e;text-decoration:none;">${tab.title || tab.url}</a>
+                            </div>`).join('')
+                            : '<em>No tabs found</em>';
+                        groupDiv.append(tabListDiv);
+                    } else {
+                        tabListDiv.style.display = '';
+                    }
+                } else if (tabListDiv) {
+                    tabListDiv.style.display = 'none';
+                }
+            };
+
+            // Focus mode: Only show this group, hide all others
+            const focusBtn = document.createElement('button');
+            focusBtn.textContent = 'Focus';
+            focusBtn.onclick = async () => {
+                await sendMessage({ action: 'focusGroup', groupName });
+                renderGroups();
+            };
+
+            actions.append(collapseBtn, hideBtn, showBtn, focusBtn, removeBtn);
             header.append(actions);
             groupDiv.append(header);
             container.append(groupDiv);
